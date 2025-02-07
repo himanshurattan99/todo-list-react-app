@@ -1,8 +1,29 @@
-# React + Vite
+# ✅ Todo List App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A clean and modern Todo List application built with React (JSX), Vite, JavaScript (ES6+) and Tailwind CSS
 
-Currently, two official plugins are available:
+## 🎯 Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Try it live here: [Todo List App](https://himanshurattan99-todo-list.netlify.app/)
+
+## ✨ Current Features
+
+- 📝 Create new todos with empty input prevention
+- ✔️ Mark todos as complete with checkbox and strikethrough effect
+- 📋 View todos in a clean, card-based layout
+- 🎨 Elegant violet-themed design
+
+## 🛠️ Technical Stack
+
+- React (JSX): For building the UI and managing todos state
+- Vite: For fast development and optimized builds
+- JavaScript (ES6+): For implementing todos management logic
+- Tailwind CSS: For utility-first styling with custom theming
+
+## 🚀 Features To Add
+
+- ✏️ Implement Edit functionality
+- ❌ Implement Delete functionality
+- 📱 Enhance responsive design
+- 🌙 Add dark mode support
+- 💾 Add local storage for todos persistence
