@@ -27,6 +27,11 @@ function App() {
     setTodos(newTodos)
   }
 
+  // Remove a todo from the list
+  const deleteTodo = (key) => {
+    setTodos(todos.filter((_, index) => index !== key))
+  }
+
   return (
     <>
       <Navbar />
@@ -55,7 +60,7 @@ function App() {
                     <button type="button" className="py-1 px-3 bg-violet-500 hover:bg-violet-700 rounded-md text-slate-100">
                       Edit
                     </button>
-                    <button type="button" className="py-1 px-3 bg-violet-500 hover:bg-violet-700 rounded-md text-slate-100">
+                    <button onClick={() => deleteTodo(index)} type="button" className="py-1 px-3 bg-violet-500 hover:bg-violet-700 rounded-md text-slate-100">
                       Delete
                     </button>
                   </div>
