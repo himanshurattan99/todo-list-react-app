@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import { v4 as uuidv4 } from 'uuid';
 import Navbar from './Components/Navbar'
 
 function App() {
@@ -14,22 +15,21 @@ function App() {
 
   // Add a new todo to the list
   const addTodo = () => {
-    setTodos([...todos, { "text": todoInput, "isCompleted": false }])
+    setTodos([...todos, { id: uuidv4(), "text": todoInput, "isCompleted": false }])
     setTodoInput("")
   }
 
   // Toggle the completion status of a todo
-  const handleTodoCheckBox = (key) => {
-    // Find the todo with matching key and toggle its completion
-    let newTodos = [...todos]
-    newTodos[key].isCompleted = !(todos[key].isCompleted)
-
-    setTodos(newTodos)
+  const handleTodoCheckBox = (id) => {
+    setTodos(todos.map((todo) =>
+      (todo.id === id) ?
+        { ...todo, isCompleted: !todo.isCompleted } : todo
+    ))
   }
 
   // Remove a todo from the list
-  const deleteTodo = (key) => {
-    setTodos(todos.filter((_, index) => index !== key))
+  const deleteTodo = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id))
   }
 
   return (
@@ -47,20 +47,20 @@ function App() {
 
         <div className="mt-6">
           <h2 className="mb-1 text-violet-500 text-lg font-medium">Todos</h2>
-          {todos.map((todoItem, index) => {
+          {todos.map((todoItem) => {
             return (
-              <ul key={index} className="mb-1">
+              <ul key={todoItem.id} className="mb-1">
                 <li className="p-2 bg-slate-50 border border-violet-500 rounded-md flex justify-between items-center gap-2">
-                  <div className="w-1/2 flex item-center gap-1">
+                  <div classNamae="w-1/2 flex item-center gap-1">
                     <input value={todoItem.text} disabled type="text" className={`w-full py-1 px-2 bg-slate-50 border border-slate-50 hover:border-violet-500 focus:border-violet-500 rounded-md outline-none text-violet-700 font-medium ${todoItem.isCompleted ? 'line-through' : ''}`} />
-                    <input onChange={() => handleTodoCheckBox(index)} type="checkbox" className="w-5 accent-violet-500" />
+                    <input onChange={() => handleTodoCheckBox(todoItem.id)} type="checkbox" className="w-5 accent-violet-500" />
                   </div>
 
                   <div className="flex gap-1">
                     <button type="button" className="py-1 px-3 bg-violet-500 hover:bg-violet-700 rounded-md text-slate-100">
                       Edit
                     </button>
-                    <button onClick={() => deleteTodo(index)} type="button" className="py-1 px-3 bg-violet-500 hover:bg-violet-700 rounded-md text-slate-100">
+                    <button onClick={() => deleteTodo(todoItem.id)} type="button" className="py-1 px-3 bg-violet-500 hover:bg-violet-700 rounded-md text-slate-100">
                       Delete
                     </button>
                   </div>
