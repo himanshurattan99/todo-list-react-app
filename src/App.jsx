@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Navbar from './Components/Navbar'
 
 function App() {
-  // States for managing todos: new todo input, todos list, editing ID and edit input
+  // States for managing todos: new todo input, todos list, editing ID, edit input, and filter
   const [todoInput, setTodoInput] = useState("")
   const [todos, setTodos] = useState(() => {
     // Initialize todos state with localStorage data if it exists
@@ -13,6 +13,7 @@ function App() {
   });
   const [editingId, setEditingId] = useState(null)
   const [editInput, setEditInput] = useState("")
+  const [filter, setFilter] = useState("all")
 
   // Save todos to local storage whenever todos change
   useEffect(() => {
@@ -79,9 +80,25 @@ function App() {
           </div>
         </div>
 
-        <div className="mt-6">
+        <div className="mt-5 flex gap-2">
+          <button onClick={() => setFilter("all")} className={`py-1 px-3 rounded-md ${filter === "all" ? 'bg-violet-700 text-slate-100' : 'bg-violet-300 text-violet-800'}`}>
+            All
+          </button>
+          <button onClick={() => setFilter("completed")} className={`py-1 px-3 rounded-md ${filter === "completed" ? 'bg-violet-700 text-slate-100' : 'bg-violet-300 text-violet-800'}`}>
+            Completed
+          </button>
+          <button onClick={() => setFilter("uncompleted")} className={`py-1 px-3 rounded-md ${filter === "uncompleted" ? 'bg-violet-700 text-slate-100' : 'bg-violet-300 text-violet-800'}`}>
+            Uncompleted
+          </button>
+        </div>
+
+        <div className="mt-5">
           <h2 className="mb-1 text-violet-500 text-lg font-medium">Todos</h2>
           {todos.map((todoItem) => {
+            // Filter todos based on the current filter state
+            if (filter === "completed" && !todoItem.isCompleted) return null;
+            if (filter === "uncompleted" && todoItem.isCompleted) return null;
+
             // Check if current todo is in edit mode
             const isEditing = (editingId === todoItem.id)
 
