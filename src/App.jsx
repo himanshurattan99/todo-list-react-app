@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import { v4 as uuidv4 } from 'uuid';
 import Navbar from './Components/Navbar'
@@ -6,9 +6,18 @@ import Navbar from './Components/Navbar'
 function App() {
   // States for managing todos: new todo input, todos list, editing ID and edit input
   const [todoInput, setTodoInput] = useState("")
-  const [todos, setTodos] = useState([])
+  const [todos, setTodos] = useState(() => {
+    // Initialize todos state with localStorage data if it exists
+    const storedTodos = localStorage.getItem("todos");
+    return storedTodos ? JSON.parse(storedTodos) : [];
+  });
   const [editingId, setEditingId] = useState(null)
   const [editInput, setEditInput] = useState("")
+
+  // Save todos to local storage whenever todos change
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   // Update the todo input state as user types
   const updateTodoInput = (e) => {
