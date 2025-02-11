@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import { v4 as uuidv4 } from 'uuid';
 import Navbar from './Components/Navbar'
+import DeleteDialog from './Components/DeleteDialog';
 
 function App() {
-  // States for managing todos: new todo input, todos list, editing ID, edit input, and filter
+  // States for managing todos: new todo input, todos list, editing ID, edit input, todo to delete, and filter
   const [todoInput, setTodoInput] = useState("")
   const [todos, setTodos] = useState(() => {
     // Initialize todos state with localStorage data if it exists
@@ -13,6 +14,7 @@ function App() {
   });
   const [editingId, setEditingId] = useState(null)
   const [editInput, setEditInput] = useState("")
+  const [todoToDelete, setTodoToDelete] = useState(null)
   const [filter, setFilter] = useState("all")
 
   // Save todos to local storage whenever todos change
@@ -62,9 +64,10 @@ function App() {
     setEditInput("")
   }
 
-  // Remove a todo from the list
+  // Remove a todo from the list and close the delete confirmation dialog
   const deleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id))
+    setTodoToDelete(null)
   }
 
   return (
@@ -135,7 +138,7 @@ function App() {
                           <button onClick={() => startEditing(todoItem)} type="button" className="py-1 px-3 bg-violet-500 hover:bg-violet-700 rounded-md text-slate-100">
                             Edit
                           </button>
-                          <button onClick={() => deleteTodo(todoItem.id)} type="button" className="py-1 px-3 bg-violet-500 hover:bg-violet-700 rounded-md text-slate-100">
+                          <button onClick={() => setTodoToDelete(todoItem.id)} type="button" className="py-1 px-3 bg-violet-500 hover:bg-violet-700 rounded-md text-slate-100">
                             Delete
                           </button>
                         </>
@@ -148,6 +151,12 @@ function App() {
           })}
         </div>
       </div>
+
+      <DeleteDialog
+        isOpen={todoToDelete !== null}
+        onClose={() => setTodoToDelete(null)}
+        onConfirm={() => deleteTodo(todoToDelete)}
+      />
     </>
   )
 }
