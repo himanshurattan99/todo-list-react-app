@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
 import Navbar from './Components/Navbar'
-import DeleteDialog from './Components/DeleteDialog';
+import Button from './Components/Button'
+import DeleteDialog from './Components/DeleteDialog'
 
 function App() {
   // States for managing todos: new todo input, todos list, editing ID, edit input, todo to delete, and filter
@@ -11,7 +12,7 @@ function App() {
     // Initialize todos state with localStorage data if it exists
     const storedTodos = localStorage.getItem("todos");
     return storedTodos ? JSON.parse(storedTodos) : [];
-  });
+  })
   const [editingId, setEditingId] = useState(null)
   const [editInput, setEditInput] = useState("")
   const [todoToDelete, setTodoToDelete] = useState(null)
@@ -79,20 +80,22 @@ function App() {
           <h2 className="mb-1 text-violet-500 text-lg font-medium">Add a Todo</h2>
           <div className="flex">
             <input onChange={updateTodoInput} value={todoInput} type="text" className="w-full py-1 px-2 bg-slate-100 border hover:border-violet-500 focus:border-violet-500 rounded-md outline-none text-violet-700 font-medium" />
-            <button onClick={addTodo} disabled={todoInput.length === 0} type="button" className="ml-2 py-1 px-3 bg-violet-500 hover:bg-violet-700 rounded-md text-slate-100">Add</button>
+            <Button onClick={addTodo} disabled={todoInput.length === 0} className="ml-2" >
+              Add
+            </Button>
           </div>
         </div>
 
         <div className="mt-5 flex gap-2">
-          <button onClick={() => setFilter("all")} className={`py-1 px-3 rounded-md ${filter === "all" ? 'bg-violet-700 text-slate-100' : 'bg-violet-300 text-violet-800'}`}>
+          <Button onClick={() => setFilter("all")} variant={filter === "all" ? 'filterActive' : 'filter'} >
             All
-          </button>
-          <button onClick={() => setFilter("completed")} className={`py-1 px-3 rounded-md ${filter === "completed" ? 'bg-violet-700 text-slate-100' : 'bg-violet-300 text-violet-800'}`}>
+          </Button>
+          <Button onClick={() => setFilter("completed")} variant={filter === "completed" ? 'filterActive' : 'filter'} >
             Completed
-          </button>
-          <button onClick={() => setFilter("uncompleted")} className={`py-1 px-3 rounded-md ${filter === "uncompleted" ? 'bg-violet-700 text-slate-100' : 'bg-violet-300 text-violet-800'}`}>
+          </Button>
+          <Button onClick={() => setFilter("uncompleted")} variant={filter === "uncompleted" ? 'filterActive' : 'filter'} >
             Uncompleted
-          </button>
+          </Button>
         </div>
 
         <div className="mt-5">
@@ -128,19 +131,19 @@ function App() {
                     {(isEditing) ?
                       (
                         // Edit mode: Show Save button
-                        <button onClick={() => saveEdit(todoItem.id)} type="button" className="py-1 px-3 bg-violet-500 hover:bg-violet-700 rounded-md text-slate-100">
+                        <Button onClick={() => saveEdit(todoItem.id)}>
                           Save
-                        </button>
+                        </Button>
                       )
                       : (
                         // View mode: Show Edit and Delete buttons
                         <>
-                          <button onClick={() => startEditing(todoItem)} type="button" className="py-1 px-3 bg-violet-500 hover:bg-violet-700 rounded-md text-slate-100">
+                          <Button onClick={() => startEditing(todoItem)}>
                             Edit
-                          </button>
-                          <button onClick={() => setTodoToDelete(todoItem.id)} type="button" className="py-1 px-3 bg-violet-500 hover:bg-violet-700 rounded-md text-slate-100">
+                          </Button>
+                          <Button onClick={() => setTodoToDelete(todoItem.id)}>
                             Delete
-                          </button>
+                          </Button>
                         </>
                       )
                     }
@@ -152,11 +155,14 @@ function App() {
         </div>
       </div>
 
-      <DeleteDialog
-        isOpen={todoToDelete !== null}
-        onClose={() => setTodoToDelete(null)}
-        onConfirm={() => deleteTodo(todoToDelete)}
-      />
+      {(todoToDelete !== null) ?
+        (
+          <DeleteDialog
+            onClose={() => setTodoToDelete(null)}
+            onConfirm={() => deleteTodo(todoToDelete)}
+          />
+        ) : null
+      }
     </>
   )
 }
