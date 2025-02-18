@@ -11,7 +11,13 @@ Try it live here: [Todo List App](https://himanshurattan99-todo-list.netlify.app
 - 📝 Create new todos with empty input prevention
 - ✔️ Mark todos as complete with checkbox and strikethrough effect
 - 📋 View todos in a clean, card-based layout
+- ✏️ Edit existing todos with inline editing
+- ❌ Delete todos with confirmation dialog
+- 🔍 Filter todos by status (All/Completed/Uncompleted)
+- 💾 Local storage persistence for todos
 - 🎨 Elegant violet-themed design
+- 🖱️ Custom scrollbar styling for better UX
+- 📱 Responsive design with mobile-friendly interface
 
 ## 🛠️ Technical Stack
 
@@ -22,8 +28,5 @@ Try it live here: [Todo List App](https://himanshurattan99-todo-list.netlify.app
 
 ## 🚀 Features To Add
 
-- ✏️ Implement Edit functionality
-- ❌ Implement Delete functionality
-- 📱 Enhance responsive design
 - 🌙 Add dark mode support
-- 💾 Add local storage for todos persistence
+- 🔄 Add drag-and-drop reordering

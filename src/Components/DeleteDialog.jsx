@@ -2,8 +2,8 @@ import Button from './Button'
 
 const DeleteDialog = ({ onClose, onConfirm }) => {
     return (
-        <div className="bg-black opacity-70 flex justify-center items-center fixed inset-0">
-            <div className="w-4/5 p-6 bg-slate-100 rounded-lg">
+        <div className="bg-black/70 flex justify-center items-center fixed inset-0">
+            <div className="w-4/5 md:w-1/2 xl:w-1/3 p-6 bg-slate-100 rounded-lg">
                 <h3 className="mb-2 text-violet-700 text-lg font-semibold">
                     Delete Todo
                 </h3>

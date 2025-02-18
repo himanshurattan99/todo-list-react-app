@@ -75,11 +75,11 @@ function App() {
     <>
       <Navbar />
 
-      <div className="h-[80vh] my-6 mx-3 py-3 px-6 bg-violet-200 rounded-lg">
+      <div className="w-9/10 md:w-3/4 xl:w-1/2 h-[90vh] mt-6 xl:mt-3 mx-auto py-3 md:py-6 px-6 md:px-12 bg-violet-200 rounded-lg flex flex-col">
         <div>
           <h2 className="mb-1 text-violet-500 text-lg font-medium">Add a Todo</h2>
           <div className="flex">
-            <input onChange={updateTodoInput} value={todoInput} type="text" className="w-full py-1 px-2 bg-slate-100 border hover:border-violet-500 focus:border-violet-500 rounded-md outline-none text-violet-700 font-medium" />
+            <input onChange={updateTodoInput} value={todoInput} placeholder="Enter your todo" type="text" className="w-full py-1 px-2 bg-slate-100 border hover:border-violet-500 focus:border-violet-500 rounded-md outline-none text-violet-700 font-medium" />
             <Button onClick={addTodo} disabled={todoInput.length === 0} className="ml-2" >
               Add
             </Button>
@@ -98,60 +98,62 @@ function App() {
           </Button>
         </div>
 
-        <div className="mt-5">
+        <div className="mt-5 flex flex-col overflow-hidden">
           <h2 className="mb-1 text-violet-500 text-lg font-medium">Todos</h2>
-          {todos.map((todoItem) => {
-            // Filter todos based on the current filter state
-            if (filter === "completed" && !todoItem.isCompleted) return null;
-            if (filter === "uncompleted" && todoItem.isCompleted) return null;
+          <div className="flex-1 overflow-y-auto scrollbar-thin-violet">
+            {todos.map((todoItem) => {
+              // Filter todos based on the current filter state
+              if (filter === "completed" && !todoItem.isCompleted) return null;
+              if (filter === "uncompleted" && todoItem.isCompleted) return null;
 
-            // Check if current todo is in edit mode
-            const isEditing = (editingId === todoItem.id)
+              // Check if current todo is in edit mode
+              const isEditing = (editingId === todoItem.id)
 
-            return (
-              <ul key={todoItem.id} className="mb-1">
-                <li className="p-2 bg-slate-50 border border-violet-500 rounded-md flex justify-between items-center gap-2">
-                  <div className="w-1/2 flex item-center gap-1">
-                    {(isEditing) ?
-                      (
-                        // Edit mode: Show edit input
-                        <input onChange={updateEditInput} value={editInput} autoFocus type="text" className="w-full py-1 px-2 bg-slate-100 border hover:border-violet-500 focus:border-violet-500 rounded-md outline-none text-violet-700 font-medium" />
-                      )
-                      : (
-                        // View mode: Show todo text and checkbox
-                        <>
-                          <input value={todoItem.text} disabled type="text" className={`w-full py-1 px-2 bg-slate-50 border border-slate-50 hover:border-violet-500 focus:border-violet-500 rounded-md outline-none text-violet-700 font-medium ${todoItem.isCompleted ? 'line-through' : ''}`} />
-                          <input onChange={() => handleTodoCheckBox(todoItem.id)} checked={todoItem.isCompleted} type="checkbox" className="w-5 accent-violet-500" />
-                        </>
-                      )
-                    }
-                  </div>
+              return (
+                <ul key={todoItem.id} className="mb-1">
+                  <li className="p-2 bg-slate-50 border border-violet-500 rounded-md flex justify-between items-center gap-2">
+                    <div className="w-1/2 flex item-center gap-1">
+                      {(isEditing) ?
+                        (
+                          // Edit mode: Show edit input
+                          <input onChange={updateEditInput} value={editInput} autoFocus type="text" className="w-full py-1 px-2 bg-slate-100 border hover:border-violet-500 focus:border-violet-500 rounded-md outline-none text-violet-700 font-medium" />
+                        )
+                        : (
+                          // View mode: Show todo text and checkbox
+                          <>
+                            <input value={todoItem.text} disabled type="text" className={`w-full py-1 px-2 bg-slate-50 border border-slate-50 hover:border-violet-500 focus:border-violet-500 rounded-md outline-none text-violet-700 font-medium ${todoItem.isCompleted ? 'line-through' : ''}`} />
+                            <input onChange={() => handleTodoCheckBox(todoItem.id)} checked={todoItem.isCompleted} type="checkbox" className="w-5 accent-violet-500 cursor-pointer" />
+                          </>
+                        )
+                      }
+                    </div>
 
-                  <div className="flex gap-1">
-                    {(isEditing) ?
-                      (
-                        // Edit mode: Show Save button
-                        <Button onClick={() => saveEdit(todoItem.id)}>
-                          Save
-                        </Button>
-                      )
-                      : (
-                        // View mode: Show Edit and Delete buttons
-                        <>
-                          <Button onClick={() => startEditing(todoItem)}>
-                            Edit
+                    <div className="flex gap-1">
+                      {(isEditing) ?
+                        (
+                          // Edit mode: Show Save button
+                          <Button onClick={() => saveEdit(todoItem.id)}>
+                            Save
                           </Button>
-                          <Button onClick={() => setTodoToDelete(todoItem.id)}>
-                            Delete
-                          </Button>
-                        </>
-                      )
-                    }
-                  </div>
-                </li>
-              </ul>
-            )
-          })}
+                        )
+                        : (
+                          // View mode: Show Edit and Delete buttons
+                          <>
+                            <Button onClick={() => startEditing(todoItem)}>
+                              Edit
+                            </Button>
+                            <Button onClick={() => setTodoToDelete(todoItem.id)}>
+                              Delete
+                            </Button>
+                          </>
+                        )
+                      }
+                    </div>
+                  </li>
+                </ul>
+              )
+            })}
+          </div>
         </div>
       </div>
 
